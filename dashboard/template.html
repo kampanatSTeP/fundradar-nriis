@@ -936,7 +936,11 @@
   // ---------- Dashboard ----------
   function renderDashboard() {
     document.getElementById('genAt1').textContent = DATA.meta.generated_at_display;
-    const openCount = DATA.items.filter(it => it.type === 'ทุนวิจัย').length;
+    // "เปิดรับอยู่" ต้องไม่นับทุนที่ประเภทเป็นทุนวิจัยแต่กำหนดปิดรับผ่านไปแล้ว
+    // (ฟีดเก็บประกาศเก่าที่หมดเขตแล้วไว้ด้วย ไม่ได้แปลว่ายังเปิดรับ)
+    const openCount = DATA.items.filter(it =>
+      it.type === 'ทุนวิจัย' && (!it.deadline || it.deadline.days_left >= 0)
+    ).length;
     document.getElementById('statOpen').textContent = openCount;
     document.getElementById('statNewWeek').textContent = DATA.meta.new_this_week;
     document.getElementById('statDeadlineSoon').textContent = DATA.meta.deadline_soon_count;
