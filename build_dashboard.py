@@ -222,12 +222,8 @@ def build():
 
     tpl = open(TEMPLATE_PATH, encoding="utf-8").read()
     for name, key in [
-        ("sarabun-400-thai", "__FONT_400_THAI__"),
-        ("sarabun-400-latin", "__FONT_400_LATIN__"),
-        ("sarabun-600-thai", "__FONT_600_THAI__"),
-        ("sarabun-600-latin", "__FONT_600_LATIN__"),
-        ("sarabun-700-thai", "__FONT_700_THAI__"),
-        ("sarabun-700-latin", "__FONT_700_LATIN__"),
+        ("anuphan-thai", "__FONT_ANUPHAN_THAI__"),
+        ("anuphan-latin", "__FONT_ANUPHAN_LATIN__"),
     ]:
         b64 = open(os.path.join(FONTS_DIR, f"{name}.woff2.b64"), encoding="ascii").read()
         tpl = tpl.replace(key, b64)

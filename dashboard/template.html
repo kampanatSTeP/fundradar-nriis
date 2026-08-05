@@ -1,113 +1,85 @@
 <title>FundRadar — ทุนเรดาร์</title>
 <style>
   @font-face {
-    font-family: 'Sarabun';
+    font-family: 'Anuphan';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 400 700;
     font-display: swap;
-    src: url(data:font/woff2;base64,__FONT_400_THAI__) format('woff2');
+    src: url(data:font/woff2;base64,__FONT_ANUPHAN_THAI__) format('woff2');
     unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
   }
   @font-face {
-    font-family: 'Sarabun';
+    font-family: 'Anuphan';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 400 700;
     font-display: swap;
-    src: url(data:font/woff2;base64,__FONT_400_LATIN__) format('woff2');
-    unicode-range: U+0000-00FF, U+2000-206F, U+2122;
-  }
-  @font-face {
-    font-family: 'Sarabun';
-    font-style: normal;
-    font-weight: 600;
-    font-display: swap;
-    src: url(data:font/woff2;base64,__FONT_600_THAI__) format('woff2');
-    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
-  }
-  @font-face {
-    font-family: 'Sarabun';
-    font-style: normal;
-    font-weight: 600;
-    font-display: swap;
-    src: url(data:font/woff2;base64,__FONT_600_LATIN__) format('woff2');
-    unicode-range: U+0000-00FF, U+2000-206F, U+2122;
-  }
-  @font-face {
-    font-family: 'Sarabun';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url(data:font/woff2;base64,__FONT_700_THAI__) format('woff2');
-    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
-  }
-  @font-face {
-    font-family: 'Sarabun';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url(data:font/woff2;base64,__FONT_700_LATIN__) format('woff2');
+    src: url(data:font/woff2;base64,__FONT_ANUPHAN_LATIN__) format('woff2');
     unicode-range: U+0000-00FF, U+2000-206F, U+2122;
   }
 
+  /* โทนสีอ้างอิงจาก step.cmu.ac.th — ทอง/มัสตาร์ดเป็นสีเน้น พื้นขาวโปร่งเป็นหลัก */
   :root {
-    --bg: #0D0F14;
-    --bg-elevated: #12151C;
-    --surface: #171B24;
-    --surface-2: #1D2230;
-    --border: #262C3A;
-    --text: #F1F3F8;
-    --text-muted: #9AA3B8;
-    --text-faint: #656E82;
-    --accent: #F2A93E;
-    --accent-strong: #F5B85C;
-    --accent-ink: #241605;
-    --accent-soft: rgba(242,169,62,0.16);
-    --good: #34D399;
-    --good-soft: rgba(52,211,153,0.16);
-    --urgent: #F0708A;
-    --urgent-soft: rgba(240,112,138,0.18);
-    --info: #7DA6F2;
-    --info-soft: rgba(125,166,242,0.16);
-    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
+    --bg: #FFFFFF;
+    --bg-alt: #F5F5F2;
+    --bg-elevated: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-2: #F6F6F3;
+    --border: #E7E7E2;
+    --text: #2B333D;
+    --text-muted: #6B7280;
+    --text-faint: #9CA3AF;
+    --accent: #EFB23A;
+    --accent-strong: #D89A1E;
+    --accent-ink: #2B1D02;
+    --accent-soft: rgba(239,178,58,0.14);
+    --good: #2E9E5B;
+    --good-soft: rgba(46,158,91,0.12);
+    --urgent: #E1506B;
+    --urgent-soft: rgba(225,80,107,0.12);
+    --info: #3E7BD9;
+    --info-soft: rgba(62,123,217,0.12);
+    --shadow: 0 1px 2px rgba(20,20,20,0.05), 0 8px 24px rgba(20,20,20,0.06);
   }
-  @media (prefers-color-scheme: light) {
+  @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #F3F4F7;
-      --bg-elevated: #FFFFFF;
-      --surface: #FFFFFF;
-      --surface-2: #F7F8FB;
-      --border: #E2E5EC;
-      --text: #1A1D27;
-      --text-muted: #5B6272;
-      --text-faint: #8991A3;
-      --accent: #DB8A1F;
-      --accent-strong: #C97C15;
-      --accent-ink: #FFF7EC;
-      --accent-soft: rgba(219,138,31,0.12);
-      --good: #1E9E6B;
-      --good-soft: rgba(30,158,107,0.12);
-      --urgent: #D34863;
-      --urgent-soft: rgba(211,72,99,0.12);
-      --info: #3E6FD9;
-      --info-soft: rgba(62,111,217,0.12);
-      --shadow: 0 1px 2px rgba(20,20,30,0.06), 0 8px 24px rgba(20,20,30,0.08);
+      --bg: #12181A;
+      --bg-alt: #161E20;
+      --bg-elevated: #182022;
+      --surface: #1B2325;
+      --surface-2: #212B2D;
+      --border: #2A3436;
+      --text: #EDEFEA;
+      --text-muted: #9FB0AC;
+      --text-faint: #6C7C79;
+      --accent: #F0B93D;
+      --accent-strong: #F5C766;
+      --accent-ink: #241A02;
+      --accent-soft: rgba(240,185,61,0.16);
+      --good: #4CC488;
+      --good-soft: rgba(76,196,136,0.16);
+      --urgent: #F0708A;
+      --urgent-soft: rgba(240,112,138,0.18);
+      --info: #7DA6F2;
+      --info-soft: rgba(125,166,242,0.16);
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0D0F14;
-    --bg-elevated: #12151C;
-    --surface: #171B24;
-    --surface-2: #1D2230;
-    --border: #262C3A;
-    --text: #F1F3F8;
-    --text-muted: #9AA3B8;
-    --text-faint: #656E82;
-    --accent: #F2A93E;
-    --accent-strong: #F5B85C;
-    --accent-ink: #241605;
-    --accent-soft: rgba(242,169,62,0.16);
-    --good: #34D399;
-    --good-soft: rgba(52,211,153,0.16);
+    --bg: #12181A;
+    --bg-alt: #161E20;
+    --bg-elevated: #182022;
+    --surface: #1B2325;
+    --surface-2: #212B2D;
+    --border: #2A3436;
+    --text: #EDEFEA;
+    --text-muted: #9FB0AC;
+    --text-faint: #6C7C79;
+    --accent: #F0B93D;
+    --accent-strong: #F5C766;
+    --accent-ink: #241A02;
+    --accent-soft: rgba(240,185,61,0.16);
+    --good: #4CC488;
+    --good-soft: rgba(76,196,136,0.16);
     --urgent: #F0708A;
     --urgent-soft: rgba(240,112,138,0.18);
     --info: #7DA6F2;
@@ -115,33 +87,34 @@
     --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
   }
   :root[data-theme="light"] {
-    --bg: #F3F4F7;
+    --bg: #FFFFFF;
+    --bg-alt: #F5F5F2;
     --bg-elevated: #FFFFFF;
     --surface: #FFFFFF;
-    --surface-2: #F7F8FB;
-    --border: #E2E5EC;
-    --text: #1A1D27;
-    --text-muted: #5B6272;
-    --text-faint: #8991A3;
-    --accent: #DB8A1F;
-    --accent-strong: #C97C15;
-    --accent-ink: #FFF7EC;
-    --accent-soft: rgba(219,138,31,0.12);
-    --good: #1E9E6B;
-    --good-soft: rgba(30,158,107,0.12);
-    --urgent: #D34863;
-    --urgent-soft: rgba(211,72,99,0.12);
-    --info: #3E6FD9;
-    --info-soft: rgba(62,111,217,0.12);
-    --shadow: 0 1px 2px rgba(20,20,30,0.06), 0 8px 24px rgba(20,20,30,0.08);
+    --surface-2: #F6F6F3;
+    --border: #E7E7E2;
+    --text: #2B333D;
+    --text-muted: #6B7280;
+    --text-faint: #9CA3AF;
+    --accent: #EFB23A;
+    --accent-strong: #D89A1E;
+    --accent-ink: #2B1D02;
+    --accent-soft: rgba(239,178,58,0.14);
+    --good: #2E9E5B;
+    --good-soft: rgba(46,158,91,0.12);
+    --urgent: #E1506B;
+    --urgent-soft: rgba(225,80,107,0.12);
+    --info: #3E7BD9;
+    --info-soft: rgba(62,123,217,0.12);
+    --shadow: 0 1px 2px rgba(20,20,20,0.05), 0 8px 24px rgba(20,20,20,0.06);
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; }
   body {
-    background: var(--bg);
+    background: var(--bg-alt);
     color: var(--text);
-    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    font-family: 'Anuphan', 'Noto Sans Thai', sans-serif;
     font-size: 14.5px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -173,16 +146,13 @@
   }
   .brand .mark {
     width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    background: linear-gradient(155deg, var(--accent-strong), var(--accent) 70%);
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex: none;
-    box-shadow: var(--shadow);
   }
-  .brand .mark svg { width: 18px; height: 18px; }
+  .brand .mark svg { width: 100%; height: 100%; }
   .brand .name {
     font-weight: 700;
     font-size: 1.02rem;
@@ -366,8 +336,8 @@
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.01em;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 3px 10px;
+    border-radius: 100px;
     white-space: nowrap;
   }
   .chip.agency { background: var(--accent-soft); color: var(--accent-strong); }
@@ -613,8 +583,12 @@
 <div class="app">
   <aside class="sidebar">
     <div class="brand">
-      <span class="mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.4"></circle><path d="M12 2v3M12 19v3M22 12h-3M5 12H2M18.4 5.6l-2 2M7.6 16.4l-2 2M18.4 18.4l-2-2M7.6 7.6l-2-2"></path></svg>
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 40 28" fill="none">
+          <rect x="7" y="0" width="27" height="5" rx="2.5" fill="var(--accent)"></rect>
+          <rect x="3" y="11" width="33" height="5" rx="2.5" fill="var(--text)"></rect>
+          <rect x="0" y="22" width="35" height="5" rx="2.5" fill="var(--text)"></rect>
+        </svg>
       </span>
       <span class="name">FundRadar<small>ทุนเรดาร์ · NRIIS</small></span>
     </div>
