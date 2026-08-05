@@ -510,6 +510,55 @@
   .bar-row .bar-fill { height: 100%; background: var(--accent); border-radius: 100px; }
   .bar-row .bar-n { font-size: 0.76rem; color: var(--text-faint); width: 24px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
 
+  /* ---------- Analytics: interactive horizontal bar chart ---------- */
+  .hbar-chart { display: flex; flex-direction: column; gap: 2px; }
+  .hbar-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 5px 6px; margin: 0 -6px; border-radius: 8px;
+    cursor: pointer; outline: none;
+  }
+  .hbar-row:hover, .hbar-row:focus-visible { background: var(--surface-2); }
+  .hbar-row:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
+  .hbar-label {
+    font-size: 0.8rem; color: var(--text-muted); width: 132px; flex: none;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .hbar-track { flex: 1; height: 20px; display: flex; align-items: center; }
+  .hbar-fill {
+    height: 14px; background: var(--accent); border-radius: 0 4px 4px 0;
+    min-width: 4px; transition: filter 0.1s ease;
+  }
+  .hbar-row:hover .hbar-fill, .hbar-row:focus-visible .hbar-fill { filter: brightness(0.92); }
+  .hbar-value {
+    font-size: 0.8rem; font-weight: 700; color: var(--text); width: 34px;
+    text-align: right; flex: none; font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Analytics: trend chart (line + area) ---------- */
+  .trend-chart { position: relative; }
+  .trend-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .trend-gridline { stroke: var(--border); stroke-width: 1; }
+  .trend-axis-label { fill: var(--text-faint); font-size: 10.5px; }
+  .trend-area { fill: var(--accent); opacity: 0.1; }
+  .trend-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .trend-dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+  .trend-dot.is-active { r: 6; }
+  .trend-crosshair { stroke: var(--text-faint); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; }
+  .trend-hit { fill: transparent; cursor: crosshair; }
+  .trend-endlabel { font-size: 11px; font-weight: 700; fill: var(--text); }
+
+  #chartTooltip {
+    position: fixed; z-index: 200; pointer-events: none;
+    background: var(--text); color: var(--bg);
+    font-size: 0.78rem; line-height: 1.4;
+    padding: 6px 10px; border-radius: 7px;
+    box-shadow: var(--shadow);
+    opacity: 0; transform: translate(-50%, -100%); transition: opacity 0.08s ease;
+    white-space: nowrap;
+  }
+  #chartTooltip.show { opacity: 1; }
+  #chartTooltip b { font-weight: 700; }
+
   .status-line { display: flex; justify-content: space-between; gap: 8px; font-size: 0.8rem; padding: 7px 0; border-top: 1px solid var(--border); }
   .status-line:first-of-type { border-top: none; }
   .status-line .k { color: var(--text-faint); }
@@ -723,13 +772,18 @@
         </div>
       </header>
       <div class="analytics-grid">
+        <div class="card pad-lg" style="grid-column: 1 / -1;">
+          <h2 style="margin:0 0 2px; font-size:0.92rem;">แนวโน้มจำนวนประกาศต่อเดือน</h2>
+          <p style="margin:0 0 6px; font-size:0.78rem; color:var(--text-faint);">นับตามวันที่ประกาศจริง (พ.ย. 2568 – ปัจจุบัน)</p>
+          <div class="trend-chart" id="trendChart"></div>
+        </div>
         <div class="card pad-lg">
           <h2 style="margin:0 0 10px; font-size:0.92rem;">จำนวนประกาศต่อประเภท</h2>
-          <div id="typeBars"></div>
+          <div class="hbar-chart" id="typeBars"></div>
         </div>
         <div class="card pad-lg">
           <h2 style="margin:0 0 10px; font-size:0.92rem;">หน่วยงานที่ประกาศมากที่สุด (Top 10)</h2>
-          <div id="agencyBarsFull"></div>
+          <div class="hbar-chart" id="agencyBarsFull"></div>
         </div>
       </div>
     </section>
@@ -769,6 +823,8 @@
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true" aria-labelledby="dpTitle"></div>
 </div>
+
+<div id="chartTooltip" role="tooltip"></div>
 
 <script id="fundradar-data" type="application/json">__DATA_JSON__</script>
 <script>
@@ -1025,31 +1081,135 @@
     document.getElementById('savedEmpty').hidden = items.length !== 0;
   }
 
-  // ---------- Analytics ----------
+  // ---------- Analytics: shared tooltip ----------
+  const chartTooltip = document.getElementById('chartTooltip');
+  function showChartTooltip(clientX, clientY, html) {
+    chartTooltip.innerHTML = '';
+    chartTooltip.appendChild(document.createRange().createContextualFragment(html));
+    chartTooltip.style.left = clientX + 'px';
+    chartTooltip.style.top = (clientY - 12) + 'px';
+    chartTooltip.classList.add('show');
+  }
+  function hideChartTooltip() { chartTooltip.classList.remove('show'); }
+
+  // ---------- Analytics: horizontal bar chart ----------
+  function renderHBarChart(containerId, entries) {
+    const container = document.getElementById(containerId);
+    const total = entries.reduce((s, e) => s + e.value, 0) || 1;
+    const max = Math.max(...entries.map(e => e.value), 1);
+    container.innerHTML = '';
+    entries.forEach(e => {
+      const pct = ((e.value / total) * 100).toFixed(1);
+      const row = document.createElement('div');
+      row.className = 'hbar-row';
+      row.tabIndex = 0;
+      row.innerHTML = `
+        <span class="hbar-label" title="${escapeHtml(e.label)}">${escapeHtml(e.label)}</span>
+        <span class="hbar-track"><span class="hbar-fill" style="width:${(e.value / max * 100).toFixed(1)}%"></span></span>
+        <span class="hbar-value">${e.value}</span>
+      `;
+      const tip = () => `<b>${e.value}</b> รายการ · ${pct}% ของทั้งหมด<br>${escapeHtml(e.label)}`;
+      row.addEventListener('mouseenter', ev => showChartTooltip(ev.clientX, ev.clientY, tip()));
+      row.addEventListener('mousemove', ev => showChartTooltip(ev.clientX, ev.clientY, tip()));
+      row.addEventListener('mouseleave', hideChartTooltip);
+      row.addEventListener('focus', () => {
+        const r = row.getBoundingClientRect();
+        showChartTooltip(r.left + 40, r.top, tip());
+      });
+      row.addEventListener('blur', hideChartTooltip);
+      container.appendChild(row);
+    });
+  }
+
+  // ---------- Analytics: monthly trend (line + area) ----------
+  function renderTrendChart(containerId, points) {
+    const container = document.getElementById(containerId);
+    if (!points.length) { container.innerHTML = '<p style="color:var(--text-faint); font-size:0.85rem;">ยังไม่มีข้อมูลเพียงพอ</p>'; return; }
+
+    const W = 720, H = 220;
+    const padL = 34, padR = 16, padT = 16, padB = 28;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+
+    const maxVal = Math.max(...points.map(p => p.count));
+    const niceMax = Math.max(5, Math.ceil(maxVal / 5) * 5);
+    const stepX = points.length > 1 ? plotW / (points.length - 1) : 0;
+    const xAt = i => padL + i * stepX;
+    const yAt = v => padT + plotH - (v / niceMax) * plotH;
+
+    const linePts = points.map((p, i) => `${xAt(i).toFixed(1)},${yAt(p.count).toFixed(1)}`).join(' L ');
+    const areaPts = `M ${xAt(0).toFixed(1)},${yAt(0).toFixed(1)} L ${linePts} L ${xAt(points.length - 1).toFixed(1)},${yAt(0).toFixed(1)} Z`;
+
+    const yTicks = [0, niceMax / 2, niceMax];
+    const gridSvg = yTicks.map(t => `
+      <line class="trend-gridline" x1="${padL}" x2="${W - padR}" y1="${yAt(t).toFixed(1)}" y2="${yAt(t).toFixed(1)}"></line>
+      <text class="trend-axis-label" x="${padL - 8}" y="${(yAt(t) + 3).toFixed(1)}" text-anchor="end">${t}</text>
+    `).join('');
+
+    const xLabelsSvg = points.map((p, i) => {
+      if (points.length > 8 && i % 2 === 1) return '';
+      return `<text class="trend-axis-label" x="${xAt(i).toFixed(1)}" y="${H - 8}" text-anchor="middle">${escapeHtml(p.label)}</text>`;
+    }).join('');
+
+    const dotsSvg = points.map((p, i) => `<circle class="trend-dot" data-i="${i}" cx="${xAt(i).toFixed(1)}" cy="${yAt(p.count).toFixed(1)}" r="4"></circle>`).join('');
+    const lastI = points.length - 1;
+    const endLabel = `<text class="trend-endlabel" x="${xAt(lastI).toFixed(1)}" y="${(yAt(points[lastI].count) - 12).toFixed(1)}" text-anchor="middle">${points[lastI].count}</text>`;
+
+    const hitsSvg = points.map((p, i) => {
+      const bandX = i === 0 ? padL : xAt(i) - stepX / 2;
+      const bandW = points.length > 1 ? stepX : plotW;
+      return `<rect class="trend-hit" data-i="${i}" x="${bandX.toFixed(1)}" y="${padT}" width="${bandW.toFixed(1)}" height="${plotH}"></rect>`;
+    }).join('');
+
+    container.innerHTML = `
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="แนวโน้มจำนวนประกาศต่อเดือน">
+        ${gridSvg}
+        <path class="trend-area" d="${areaPts}"></path>
+        <path class="trend-line" d="M ${linePts}"></path>
+        ${dotsSvg}
+        ${endLabel}
+        ${xLabelsSvg}
+        <line class="trend-crosshair" id="trendCrosshair" y1="${padT}" y2="${padT + plotH}"></line>
+        ${hitsSvg}
+      </svg>
+    `;
+
+    const svg = container.querySelector('svg');
+    const crosshair = svg.querySelector('#trendCrosshair');
+    svg.querySelectorAll('.trend-hit').forEach(hit => {
+      const i = +hit.dataset.i;
+      const p = points[i];
+      const dot = svg.querySelector(`.trend-dot[data-i="${i}"]`);
+      const show = ev => {
+        crosshair.setAttribute('x1', xAt(i).toFixed(1));
+        crosshair.setAttribute('x2', xAt(i).toFixed(1));
+        crosshair.style.opacity = '1';
+        dot.classList.add('is-active');
+        showChartTooltip(ev.clientX, ev.clientY, `<b>${p.count}</b> ประกาศ<br>${escapeHtml(p.label)}`);
+      };
+      hit.addEventListener('mouseenter', show);
+      hit.addEventListener('mousemove', show);
+      hit.addEventListener('mouseleave', () => {
+        crosshair.style.opacity = '0';
+        dot.classList.remove('is-active');
+        hideChartTooltip();
+      });
+    });
+  }
+
   function renderAnalytics() {
     document.getElementById('analyticsTotal').textContent = DATA.meta.total;
+
     const typeCounts = {};
     DATA.items.forEach(it => typeCounts[it.type] = (typeCounts[it.type] || 0) + 1);
-    const maxType = Math.max(...Object.values(typeCounts), 1);
-    document.getElementById('typeBars').innerHTML = Object.entries(typeCounts)
-      .sort((a,b) => b[1]-a[1])
-      .map(([k,v]) => `
-        <div class="bar-row">
-          <span class="bar-label" title="${escapeHtml(k)}">${escapeHtml(k)}</span>
-          <span class="bar-track"><span class="bar-fill" style="width:${(v/maxType*100).toFixed(0)}%"></span></span>
-          <span class="bar-n">${v}</span>
-        </div>`).join('');
+    const typeEntries = Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value }));
+    renderHBarChart('typeBars', typeEntries);
 
     const agencyCounts = {};
     DATA.items.forEach(it => agencyCounts[it.author] = (agencyCounts[it.author] || 0) + 1);
-    const topAgencies = Object.entries(agencyCounts).sort((a,b) => b[1]-a[1]).slice(0, 10);
-    const maxAgency = Math.max(...topAgencies.map(a => a[1]), 1);
-    document.getElementById('agencyBarsFull').innerHTML = topAgencies.map(([k,v]) => `
-      <div class="bar-row">
-        <span class="bar-label" title="${escapeHtml(k)}">${escapeHtml(k)}</span>
-        <span class="bar-track"><span class="bar-fill" style="width:${(v/maxAgency*100).toFixed(0)}%"></span></span>
-        <span class="bar-n">${v}</span>
-      </div>`).join('');
+    const agencyEntries = Object.entries(agencyCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([label, value]) => ({ label, value }));
+    renderHBarChart('agencyBarsFull', agencyEntries);
+
+    renderTrendChart('trendChart', DATA.monthly_trend.map(m => ({ label: m.label, count: m.count })));
   }
 
   // ---------- View switching ----------

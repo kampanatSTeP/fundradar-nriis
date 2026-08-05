@@ -200,6 +200,21 @@ def build():
         agency_counts[r["author"]] = agency_counts.get(r["author"], 0) + 1
     top_agencies = sorted(agency_counts.items(), key=lambda kv: kv[1], reverse=True)[:6]
 
+    # แนวโน้มจำนวนประกาศรายเดือน (เรียงตามเวลาจริง ไม่ใช่ตามความถี่)
+    month_counts = {}
+    for r in records:
+        if not r["date_iso"]:
+            continue
+        ym = r["date_iso"][:7]  # "YYYY-MM"
+        month_counts[ym] = month_counts.get(ym, 0) + 1
+    monthly_trend = []
+    for ym in sorted(month_counts.keys()):
+        y, m = int(ym[:4]), int(ym[5:7])
+        monthly_trend.append({
+            "label": f"{THAI_MONTHS_ABBR[m]} {(y + 543) % 100}",
+            "count": month_counts[ym],
+        })
+
     meta = {
         "generated_at_display": f"{now.day} {THAI_MONTHS_ABBR[now.month]} {now.year + 543} เวลา {now.strftime('%H:%M')} น.",
         "total": len(records),
@@ -217,6 +232,7 @@ def build():
         "types": types,
         "trending": [{"label": k, "count": v} for k, v in trending],
         "top_agencies": [{"label": k, "count": v} for k, v in top_agencies],
+        "monthly_trend": monthly_trend,
         "meta": meta,
     }
 
