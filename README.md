@@ -8,15 +8,26 @@
 - รันครั้งแรกจะถือว่าทุนทั้งหมดในตอนนั้นเป็น baseline (ยังไม่แจ้งเตือน) เพื่อไม่ให้แจ้งย้อนหลังทุกอันพร้อมกัน — ทำไปแล้วตอนติดตั้ง (baseline 100 รายการ ณ 2026-08-04)
 
 ## แดชบอร์ด
-เปิดดูทุนทั้งหมดแบบภาพรวมได้ที่ `dashboard/fundradar_dashboard.html` (เผยแพร่เป็น Claude Artifact ไว้ให้แล้ว)
+เปิดดูได้ 2 ทาง:
+- **เว็บไซต์จริงสำหรับส่งให้ลูกค้าดู**: https://kampanatstep.github.io/fundradar-nriis/ (โฮสต์ฟรีบน GitHub Pages จาก repo https://github.com/kampanatSTeP/fundradar-nriis)
+- **Claude Artifact** (ลิงก์เดิมที่เคยส่งให้) — ใช้ดูส่วนตัว/ทดสอบเร็ว ๆ ได้เหมือนเดิม
+
 มี Dashboard, Grants Directory (ค้นหา/กรอง), Saved Grants (บันทึกด้วย localStorage ของเบราว์เซอร์), Analytics, Settings
 
-หน้านี้เป็น **ภาพนิ่ง (snapshot)** — รีเฟรชข้อมูลด้วยคำสั่ง:
+หน้านี้เป็น **ภาพนิ่ง (snapshot)** ไม่ได้อัปเดตสดอัตโนมัติ (ตอนนี้ตั้งใจทำเป็นเวอร์ชันเบื้องต้นให้ลูกค้าดูก่อน ยังไม่ผูก AI extraction API แบบเสียเงินอัตโนมัติ) — วิธีรีเฟรชข้อมูลและอัปเดตเว็บไซต์จริง:
 ```bash
 cd /Users/papup/NRIIS
-python3 build_dashboard.py
+python3 build_dashboard.py          # ดึง RSS ล่าสุด + สร้างหน้าใหม่
+cp dashboard/fundradar_dashboard.html docs/index.html
+git add -A dashboard data docs
+git commit -m "Refresh dashboard data"
+git push
 ```
-แล้วขอให้ Claude เผยแพร่ไฟล์ `dashboard/fundradar_dashboard.html` เป็น Artifact ใหม่อีกครั้ง (ลิงก์เดิม)
+เว็บไซต์ GitHub Pages จะอัปเดตเองภายในเวลาไม่กี่นาทีหลัง push
+(ถ้ามีประกาศใหม่ที่ยังไม่มีรายละเอียดเชิงลึก ให้ขอ Claude รันขั้นตอนสกัดข้อมูลซ้ำก่อน แล้วค่อยรันคำสั่งข้างบน)
+
+**อัปเกรดในอนาคต — อัตโนมัติเต็มรูปแบบ**: ถ้าต้องการให้ทั้งหมดนี้ (ดึง RSS → สกัดข้อมูลเชิงลึก → อัปเดตเว็บ) รันเองทุกวันโดยไม่ต้องพึ่งคน
+ต้องมี Anthropic API key ของตัวเอง (มีค่าใช้จ่ายเล็กน้อยตามการใช้งานจริง) แล้วตั้ง GitHub Actions ให้รันตามตารางเวลา — แจ้ง Claude ได้เมื่อพร้อม
 
 ### การสกัดข้อมูลเชิงลึก (data/extracted.json)
 แต่ละประกาศมีปุ่ม **"ดูรายละเอียด"** เปิดแผงข้อมูลเชิงลึก (กลุ่มเป้าหมาย, งบสนับสนุน, กำหนดปิดรับ, วัตถุประสงค์, คุณสมบัติ) —
