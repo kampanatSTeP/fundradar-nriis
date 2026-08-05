@@ -1,0 +1,22 @@
+# Unrelated deliverables kept in this working folder but not part of FundRadar
+Old/
+ROI_framework.pptx
+make_roi_slide.js
+make_icons.js
+assets/
+node_modules/
+package.json
+package-lock.json
+
+# Local runtime artifacts (regenerated, not source)
+logs/
+reports/
+_preview.html
+
+# Secrets — never commit
+config.json
+.env
+
+# OS
+.DS_Store
+.claude/

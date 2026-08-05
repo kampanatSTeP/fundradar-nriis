@@ -1,0 +1,9 @@
+{
+  "smtp_host": "smtp.gmail.com",
+  "smtp_port": 587,
+  "use_tls": true,
+  "smtp_user": "your-account@gmail.com",
+  "smtp_password": "your-16-char-app-password",
+  "from_addr": "your-account@gmail.com",
+  "to_addr": "kpupcenter@kpup.one"
+}

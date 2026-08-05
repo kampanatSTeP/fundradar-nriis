@@ -1,0 +1,1062 @@
+<title>FundRadar — ทุนเรดาร์</title>
+<style>
+  @font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(data:font/woff2;base64,__FONT_400_THAI__) format('woff2');
+    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+  }
+  @font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(data:font/woff2;base64,__FONT_400_LATIN__) format('woff2');
+    unicode-range: U+0000-00FF, U+2000-206F, U+2122;
+  }
+  @font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url(data:font/woff2;base64,__FONT_600_THAI__) format('woff2');
+    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+  }
+  @font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url(data:font/woff2;base64,__FONT_600_LATIN__) format('woff2');
+    unicode-range: U+0000-00FF, U+2000-206F, U+2122;
+  }
+  @font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(data:font/woff2;base64,__FONT_700_THAI__) format('woff2');
+    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+  }
+  @font-face {
+    font-family: 'Sarabun';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(data:font/woff2;base64,__FONT_700_LATIN__) format('woff2');
+    unicode-range: U+0000-00FF, U+2000-206F, U+2122;
+  }
+
+  :root {
+    --bg: #0D0F14;
+    --bg-elevated: #12151C;
+    --surface: #171B24;
+    --surface-2: #1D2230;
+    --border: #262C3A;
+    --text: #F1F3F8;
+    --text-muted: #9AA3B8;
+    --text-faint: #656E82;
+    --accent: #F2A93E;
+    --accent-strong: #F5B85C;
+    --accent-ink: #241605;
+    --accent-soft: rgba(242,169,62,0.16);
+    --good: #34D399;
+    --good-soft: rgba(52,211,153,0.16);
+    --urgent: #F0708A;
+    --urgent-soft: rgba(240,112,138,0.18);
+    --info: #7DA6F2;
+    --info-soft: rgba(125,166,242,0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #F3F4F7;
+      --bg-elevated: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-2: #F7F8FB;
+      --border: #E2E5EC;
+      --text: #1A1D27;
+      --text-muted: #5B6272;
+      --text-faint: #8991A3;
+      --accent: #DB8A1F;
+      --accent-strong: #C97C15;
+      --accent-ink: #FFF7EC;
+      --accent-soft: rgba(219,138,31,0.12);
+      --good: #1E9E6B;
+      --good-soft: rgba(30,158,107,0.12);
+      --urgent: #D34863;
+      --urgent-soft: rgba(211,72,99,0.12);
+      --info: #3E6FD9;
+      --info-soft: rgba(62,111,217,0.12);
+      --shadow: 0 1px 2px rgba(20,20,30,0.06), 0 8px 24px rgba(20,20,30,0.08);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D0F14;
+    --bg-elevated: #12151C;
+    --surface: #171B24;
+    --surface-2: #1D2230;
+    --border: #262C3A;
+    --text: #F1F3F8;
+    --text-muted: #9AA3B8;
+    --text-faint: #656E82;
+    --accent: #F2A93E;
+    --accent-strong: #F5B85C;
+    --accent-ink: #241605;
+    --accent-soft: rgba(242,169,62,0.16);
+    --good: #34D399;
+    --good-soft: rgba(52,211,153,0.16);
+    --urgent: #F0708A;
+    --urgent-soft: rgba(240,112,138,0.18);
+    --info: #7DA6F2;
+    --info-soft: rgba(125,166,242,0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
+  }
+  :root[data-theme="light"] {
+    --bg: #F3F4F7;
+    --bg-elevated: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-2: #F7F8FB;
+    --border: #E2E5EC;
+    --text: #1A1D27;
+    --text-muted: #5B6272;
+    --text-faint: #8991A3;
+    --accent: #DB8A1F;
+    --accent-strong: #C97C15;
+    --accent-ink: #FFF7EC;
+    --accent-soft: rgba(219,138,31,0.12);
+    --good: #1E9E6B;
+    --good-soft: rgba(30,158,107,0.12);
+    --urgent: #D34863;
+    --urgent-soft: rgba(211,72,99,0.12);
+    --info: #3E6FD9;
+    --info-soft: rgba(62,111,217,0.12);
+    --shadow: 0 1px 2px rgba(20,20,30,0.06), 0 8px 24px rgba(20,20,30,0.08);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  button { font: inherit; }
+
+  .app {
+    display: grid;
+    grid-template-columns: 232px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    background: var(--bg-elevated);
+    border-right: 1px solid var(--border);
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 6px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand .mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: linear-gradient(155deg, var(--accent-strong), var(--accent) 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    box-shadow: var(--shadow);
+  }
+  .brand .mark svg { width: 18px; height: 18px; }
+  .brand .name {
+    font-weight: 700;
+    font-size: 1.02rem;
+    line-height: 1.25;
+  }
+  .brand .name small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+  }
+
+  nav.navlist {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  nav.navlist .navitem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+  }
+  nav.navlist .navitem svg { width: 17px; height: 17px; flex: none; }
+  nav.navlist .navitem .lbl { flex: 1; font-size: 0.88rem; }
+  nav.navlist .navitem .badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-faint);
+    background: var(--surface-2);
+    border-radius: 100px;
+    padding: 1px 7px;
+  }
+  nav.navlist .navitem:hover { background: var(--surface-2); color: var(--text); }
+  nav.navlist .navitem.active {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    font-weight: 600;
+  }
+  nav.navlist .navitem.active .badge { background: var(--accent); color: var(--accent-ink); }
+  nav.navlist .navitem:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .sidebar-footer {
+    margin-top: auto;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+
+  /* ---------- Main ---------- */
+  main {
+    padding: 26px 30px 60px;
+    min-width: 0;
+  }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  header.pagehead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+  header.pagehead h1 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  header.pagehead p {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+    font-size: 0.86rem;
+  }
+  header.pagehead .rightmeta {
+    font-size: 0.78rem;
+    color: var(--text-faint);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Stat tiles ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    box-shadow: var(--shadow);
+  }
+  .stat .n {
+    font-weight: 700;
+    font-size: 1.65rem;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .l { color: var(--text-muted); font-size: 0.76rem; margin-top: 4px; }
+  .stat .icon {
+    width: 34px; height: 34px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .stat .icon svg { width: 16px; height: 16px; }
+  .stat.good .icon { background: var(--good-soft); color: var(--good); }
+  .stat.warn .icon { background: var(--accent-soft); color: var(--accent-strong); }
+  .stat.urgent .icon { background: var(--urgent-soft); color: var(--urgent); }
+  .stat.info .icon { background: var(--info-soft); color: var(--info); }
+
+  /* ---------- Section headers ---------- */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .section-head h2 { margin: 0; font-size: 1.02rem; font-weight: 700; }
+  .section-head .sub { color: var(--text-faint); font-size: 0.78rem; }
+
+  /* ---------- Dashboard layout ---------- */
+  .dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 22px;
+    align-items: start;
+  }
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px 16px;
+    box-shadow: var(--shadow);
+  }
+  .card.pad-lg { padding: 18px 18px; }
+
+  .grant-card { display: flex; flex-direction: column; gap: 9px; }
+  .grant-card .row-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .chip.agency { background: var(--accent-soft); color: var(--accent-strong); }
+  .chip.type-ทุนวิจัย { background: var(--good-soft); color: var(--good); }
+  .chip.type-ประกาศผล { background: var(--info-soft); color: var(--info); }
+  .chip.type-รางวัล { background: var(--accent-soft); color: var(--accent-strong); }
+  .chip.type-กิจกรรมสัมมนา { background: var(--surface-2); color: var(--text-muted); }
+  .chip.type-รับฟังความเห็น { background: var(--surface-2); color: var(--text-muted); }
+  .chip.type-ประกาศทั่วไป { background: var(--surface-2); color: var(--text-muted); }
+  .chip.topic { background: var(--surface-2); color: var(--text-muted); font-weight: 600; }
+
+  .bookmark-btn {
+    border: none; background: transparent; color: var(--text-faint);
+    cursor: pointer; padding: 4px; border-radius: 6px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .bookmark-btn:hover { background: var(--surface-2); color: var(--text); }
+  .bookmark-btn.saved { color: var(--accent); }
+  .bookmark-btn svg { width: 18px; height: 18px; }
+
+  .grant-card h3 {
+    margin: 0;
+    font-size: 0.94rem;
+    font-weight: 600;
+    line-height: 1.45;
+    text-wrap: balance;
+  }
+  .grant-card h3 a { text-decoration: none; }
+  .grant-card h3 a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+
+  .grant-card .excerpt-box {
+    background: var(--surface-2);
+    border-radius: 8px;
+    padding: 9px 11px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .grant-card .excerpt-box .lbl {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+  }
+
+  .meta-line {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .meta-line .dot { color: var(--text-faint); }
+
+  .deadline-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .deadline-row .dl-label { font-size: 0.8rem; color: var(--text-muted); }
+  .deadline-row .dl-date { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .pill.urgent { background: var(--urgent-soft); color: var(--urgent); }
+  .pill.soon { background: var(--accent-soft); color: var(--accent-strong); }
+  .pill.unknown { background: var(--surface-2); color: var(--text-faint); font-weight: 600; }
+
+  .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .open-link, .detail-btn {
+    align-self: flex-start;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--surface-2);
+    text-decoration: none;
+    padding: 6px 11px;
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid var(--border);
+  }
+  .open-link:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .detail-btn { cursor: pointer; font-family: inherit; }
+  .detail-btn:hover, .detail-btn:focus-visible { background: var(--surface); border-color: var(--accent-strong); color: var(--accent-strong); outline: none; }
+
+  /* ---------- Detail modal (slide-over) ---------- */
+  .detail-overlay {
+    position: fixed; inset: 0;
+    background: rgba(6,8,12,0.55);
+    display: flex; justify-content: flex-end;
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.18s ease;
+  }
+  .detail-overlay.open { opacity: 1; pointer-events: auto; }
+  .detail-panel {
+    width: min(460px, 100%);
+    height: 100%;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    padding: 22px 22px 30px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.22s ease;
+  }
+  .detail-overlay.open .detail-panel { transform: translateX(0); }
+  .detail-panel .dp-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+  .detail-panel .dp-close {
+    border: none; background: var(--surface-2); color: var(--text-muted);
+    width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex: none;
+  }
+  .detail-panel .dp-close:hover { background: var(--border); color: var(--text); }
+  .detail-panel h2 {
+    font-size: 1.08rem; font-weight: 700; margin: 4px 0 10px; text-wrap: balance; line-height: 1.4;
+  }
+  .detail-panel .dp-meta { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; }
+  .detail-panel .dp-row {
+    display: flex; justify-content: space-between; gap: 10px;
+    padding: 9px 0; border-top: 1px solid var(--border); font-size: 0.85rem;
+  }
+  .detail-panel .dp-row:first-of-type { border-top: none; }
+  .detail-panel .dp-row .k { color: var(--text-faint); flex: none; }
+  .detail-panel .dp-row .v { color: var(--text); font-weight: 600; text-align: right; }
+  .detail-panel .dp-section { margin-top: 18px; }
+  .detail-panel .dp-section h4 {
+    font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--text-faint); margin: 0 0 8px;
+  }
+  .detail-panel .dp-section p { font-size: 0.88rem; color: var(--text-muted); margin: 0; line-height: 1.65; }
+  .detail-panel .dp-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  .detail-panel .dp-list li {
+    font-size: 0.86rem; color: var(--text-muted); display: flex; gap: 8px; align-items: flex-start; line-height: 1.55;
+  }
+  .detail-panel .dp-list li svg { width: 15px; height: 15px; flex: none; margin-top: 2px; color: var(--good); }
+  .detail-panel .dp-empty-note {
+    font-size: 0.84rem; color: var(--text-faint); background: var(--surface-2);
+    border-radius: 8px; padding: 10px 12px; margin-top: 14px;
+  }
+  .detail-panel .dp-actions { display: flex; gap: 8px; margin-top: 20px; }
+  .detail-panel .dp-actions .open-link { flex: 1; justify-content: center; }
+  .detail-panel .dp-actions .bookmark-btn { border: 1px solid var(--border); border-radius: 7px; }
+
+  /* ---------- Insights panel ---------- */
+  .insight-summary {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .insight-summary b { color: var(--text); font-weight: 700; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag-pill {
+    font-size: 0.74rem;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 100px;
+    background: var(--surface-2);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .bar-row .bar-label { font-size: 0.78rem; color: var(--text-muted); width: 128px; flex: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-row .bar-track { flex: 1; height: 7px; background: var(--surface-2); border-radius: 100px; overflow: hidden; }
+  .bar-row .bar-fill { height: 100%; background: var(--accent); border-radius: 100px; }
+  .bar-row .bar-n { font-size: 0.76rem; color: var(--text-faint); width: 24px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
+
+  .status-line { display: flex; justify-content: space-between; gap: 8px; font-size: 0.8rem; padding: 7px 0; border-top: 1px solid var(--border); }
+  .status-line:first-of-type { border-top: none; }
+  .status-line .k { color: var(--text-faint); }
+  .status-line .v { color: var(--text); font-weight: 600; text-align: right; }
+
+  /* ---------- Controls (directory) ---------- */
+  .controls { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .controls input[type="search"] {
+    flex: 1 1 220px;
+    font: inherit;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+  }
+  .controls select {
+    font: inherit;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    max-width: 230px;
+  }
+  .controls input:focus-visible, .controls select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .count-line { font-size: 0.8rem; color: var(--text-faint); margin-bottom: 10px; }
+
+  .list { display: flex; flex-direction: column; gap: 10px; }
+  .list .grant-card { flex-direction: column; }
+
+  .empty {
+    text-align: center;
+    color: var(--text-faint);
+    padding: 50px 20px;
+    font-size: 0.88rem;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+  .empty svg { width: 30px; height: 30px; margin-bottom: 10px; color: var(--text-faint); }
+
+  /* ---------- Analytics ---------- */
+  .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ---------- Settings ---------- */
+  .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .settings-grid .card h3 { margin: 0 0 10px; font-size: 0.92rem; font-weight: 700; }
+
+  @media (max-width: 880px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar {
+      flex-direction: row;
+      align-items: center;
+      overflow-x: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 12px;
+      gap: 14px;
+    }
+    .brand { border-bottom: none; padding: 0; }
+    .brand .name small { display: none; }
+    nav.navlist { flex-direction: row; }
+    nav.navlist .navitem .lbl { display: none; }
+    .sidebar-footer { display: none; }
+    .dash-grid, .featured-grid, .analytics-grid, .settings-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    main { padding: 18px 16px 50px; }
+  }
+</style>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.4"></circle><path d="M12 2v3M12 19v3M22 12h-3M5 12H2M18.4 5.6l-2 2M7.6 16.4l-2 2M18.4 18.4l-2-2M7.6 7.6l-2-2"></path></svg>
+      </span>
+      <span class="name">FundRadar<small>ทุนเรดาร์ · NRIIS</small></span>
+    </div>
+    <nav class="navlist" id="navlist">
+      <button class="navitem active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>
+        <span class="lbl">Dashboard</span>
+      </button>
+      <button class="navitem" data-view="directory">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"></path><circle cx="3.5" cy="6" r="1.2"></circle><circle cx="3.5" cy="12" r="1.2"></circle><circle cx="3.5" cy="18" r="1.2"></circle></svg>
+        <span class="lbl">Grants Directory</span>
+        <span class="badge" id="navTotalBadge">0</span>
+      </button>
+      <button class="navitem" data-view="saved">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21V3z"></path></svg>
+        <span class="lbl">Saved Grants</span>
+        <span class="badge" id="navSavedBadge">0</span>
+      </button>
+      <button class="navitem" data-view="analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M12 20V4M20 20v-7"></path></svg>
+        <span class="lbl">Analytics</span>
+      </button>
+      <button class="navitem" data-view="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09a1.7 1.7 0 00-1-1.56 1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.7 1.7 0 00.34-1.87 1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09a1.7 1.7 0 001.56-1 1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06a1.7 1.7 0 001.87.34H9a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06a1.7 1.7 0 00-.34 1.87V9a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.55 1z"></path></svg>
+        <span class="lbl">Settings</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      ตรวจสอบทุนใหม่อัตโนมัติทุกวัน 08:07 น.<br>ที่มา: nriis.go.th/rss.aspx
+    </div>
+  </aside>
+
+  <main>
+    <!-- Dashboard -->
+    <section class="view active" id="view-dashboard">
+      <header class="pagehead">
+        <div>
+          <h1>ภาพรวมทุนวิจัย (Overview)</h1>
+          <p>ข้อมูลอัปเดตอัตโนมัติจากประกาศ NRIIS ล่าสุด</p>
+        </div>
+        <div class="rightmeta">อัปเดตล่าสุด: <span id="genAt1"></span></div>
+      </header>
+
+      <div class="stats">
+        <div class="stat good">
+          <div><div class="n" id="statOpen">0</div><div class="l">ทุนวิจัยที่เปิดรับอยู่</div></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></div>
+        </div>
+        <div class="stat warn">
+          <div><div class="n" id="statNewWeek">0</div><div class="l">ประกาศใหม่ในสัปดาห์นี้</div></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"></path></svg></div>
+        </div>
+        <div class="stat urgent">
+          <div><div class="n" id="statDeadlineSoon">0</div><div class="l">ใกล้ปิดรับ (≤14 วัน)</div></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></div>
+        </div>
+        <div class="stat info">
+          <div><div class="n" id="statAgency2">0</div><div class="l">หน่วยงานที่พบ</div></div>
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"></path></svg></div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div>
+          <div class="section-head">
+            <h2>ทุนที่ควรดูก่อน (Featured)</h2>
+            <span class="sub" id="featuredSub"></span>
+          </div>
+          <div class="featured-grid" id="featuredGrid"></div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div class="card pad-lg">
+            <div class="section-head" style="margin-bottom:8px;"><h2 style="font-size:0.92rem;">สรุปภาพรวม</h2></div>
+            <div class="insight-summary" id="insightSummary"></div>
+            <div class="tag-row" id="trendingTags"></div>
+          </div>
+          <div class="card pad-lg">
+            <div class="section-head" style="margin-bottom:2px;"><h2 style="font-size:0.92rem;">หน่วยงานที่ประกาศบ่อยสุด</h2></div>
+            <div id="agencyBars"></div>
+          </div>
+          <div class="card pad-lg">
+            <div class="section-head" style="margin-bottom:2px;"><h2 style="font-size:0.92rem;">สถานะระบบ</h2></div>
+            <div class="status-line"><span class="k">ตรวจสอบล่าสุด</span><span class="v" id="statusChecked"></span></div>
+            <div class="status-line"><span class="k">ตรวจครั้งถัดไป</span><span class="v" id="statusNext"></span></div>
+            <div class="status-line"><span class="k">แหล่งข้อมูล</span><span class="v">nriis.go.th</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Directory -->
+    <section class="view" id="view-directory">
+      <header class="pagehead">
+        <div>
+          <h1>คลังประกาศทุนทั้งหมด</h1>
+          <p>ค้นหาและกรองประกาศทุนทั้งหมดที่ระบบติดตามอยู่</p>
+        </div>
+      </header>
+      <div class="controls">
+        <input type="search" id="searchBox" placeholder="ค้นหาชื่อทุน / คำสำคัญ…" aria-label="ค้นหาทุน">
+        <select id="agencyFilter" aria-label="กรองตามหน่วยงาน"><option value="">ทุกหน่วยงาน</option></select>
+        <select id="typeFilter" aria-label="กรองตามประเภทประกาศ"><option value="">ทุกประเภทประกาศ</option></select>
+      </div>
+      <div class="count-line" id="countLine"></div>
+      <div class="list" id="directoryList"></div>
+      <div class="empty" id="directoryEmpty" hidden>ไม่พบทุนที่ตรงกับเงื่อนไขค้นหา</div>
+    </section>
+
+    <!-- Saved -->
+    <section class="view" id="view-saved">
+      <header class="pagehead">
+        <div>
+          <h1>ทุนที่บันทึกไว้</h1>
+          <p>กดไอคอนคั่นหน้าบนการ์ดทุนเพื่อบันทึกไว้ดูภายหลัง (เก็บไว้ในเบราว์เซอร์นี้เท่านั้น)</p>
+        </div>
+      </header>
+      <div class="list" id="savedList"></div>
+      <div class="empty" id="savedEmpty" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21V3z"></path></svg>
+        <div>ยังไม่มีทุนที่บันทึกไว้ — ไปที่ Grants Directory แล้วกดไอคอนคั่นหน้าบนทุนที่สนใจ</div>
+      </div>
+    </section>
+
+    <!-- Analytics -->
+    <section class="view" id="view-analytics">
+      <header class="pagehead">
+        <div>
+          <h1>Analytics</h1>
+          <p>สรุปสถิติจากประกาศทั้งหมดที่ติดตามอยู่ตอนนี้ (<span id="analyticsTotal"></span> รายการ)</p>
+        </div>
+      </header>
+      <div class="analytics-grid">
+        <div class="card pad-lg">
+          <h2 style="margin:0 0 10px; font-size:0.92rem;">จำนวนประกาศต่อประเภท</h2>
+          <div id="typeBars"></div>
+        </div>
+        <div class="card pad-lg">
+          <h2 style="margin:0 0 10px; font-size:0.92rem;">หน่วยงานที่ประกาศมากที่สุด (Top 10)</h2>
+          <div id="agencyBarsFull"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="view" id="view-settings">
+      <header class="pagehead">
+        <div>
+          <h1>Settings</h1>
+          <p>ข้อมูลการทำงานของระบบติดตามนี้</p>
+        </div>
+      </header>
+      <div class="settings-grid">
+        <div class="card">
+          <h3>แหล่งข้อมูล</h3>
+          <p style="margin:0; color:var(--text-muted); font-size:0.86rem;">
+            ดึงจาก RSS ของ NRIIS โดยตรง: <a href="https://nriis.go.th/rss.aspx" target="_blank" rel="noopener noreferrer" style="color:var(--accent-strong);">nriis.go.th/rss.aspx</a>
+          </p>
+        </div>
+        <div class="card">
+          <h3>ความถี่การตรวจสอบ</h3>
+          <p style="margin:0; color:var(--text-muted); font-size:0.86rem;">ตรวจสอบประกาศใหม่อัตโนมัติทุกวันเวลา 08:07 น. ผ่าน macOS LaunchAgent (<code>com.fundradar.nriis</code>) บนเครื่องนี้</p>
+        </div>
+        <div class="card">
+          <h3>การแจ้งเตือน</h3>
+          <p style="margin:0; color:var(--text-muted); font-size:0.86rem;">แจ้งเตือนผ่าน macOS notification เมื่อพบทุนใหม่ ยังไม่ได้ตั้งค่าอีเมล (ทำได้โดยกรอก <code>config.json</code> ในโฟลเดอร์โปรเจกต์)</p>
+        </div>
+        <div class="card">
+          <h3>รายงานและข้อมูลดิบ</h3>
+          <p style="margin:0; color:var(--text-muted); font-size:0.86rem;">รายงานทุนใหม่รายวันเก็บที่โฟลเดอร์ <code>reports/</code> และสถานะที่เคยเห็นแล้วเก็บที่ <code>data/seen.json</code></p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true" aria-labelledby="dpTitle"></div>
+</div>
+
+<script id="fundradar-data" type="application/json">__DATA_JSON__</script>
+<script>
+  const DATA = JSON.parse(document.getElementById('fundradar-data').textContent);
+  const SAVE_KEY = 'fundradar_saved_ids';
+
+  function loadSaved() {
+    try { return new Set(JSON.parse(localStorage.getItem(SAVE_KEY) || '[]')); }
+    catch (e) { return new Set(); }
+  }
+  function persistSaved(set) {
+    localStorage.setItem(SAVE_KEY, JSON.stringify([...set]));
+  }
+  let saved = loadSaved();
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function typeClass(t) { return 'type-' + t.replace(/[^ก-๚a-zA-Z]/g, ''); }
+
+  function deadlinePill(d) {
+    if (!d) return '<span class="pill unknown">ดูกำหนดในประกาศ</span>';
+    if (d.days_left < 0) return '<span class="pill unknown">ปิดรับแล้ว</span>';
+    if (d.days_left <= 14) return `<span class="pill urgent">เหลือ ${d.days_left} วัน</span>`;
+    if (d.days_left <= 30) return `<span class="pill soon">เหลือ ${d.days_left} วัน</span>`;
+    return `<span class="pill unknown">${d.days_left} วัน</span>`;
+  }
+
+  function bookmarkBtn(id) {
+    const isSaved = saved.has(id);
+    return `<button class="bookmark-btn${isSaved ? ' saved' : ''}" data-bookmark="${id}" aria-label="บันทึกทุนนี้" title="บันทึกทุนนี้">
+      <svg viewBox="0 0 24 24" fill="${isSaved ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21V3z"></path></svg>
+    </button>`;
+  }
+
+  function grantCard(it, opts) {
+    opts = opts || {};
+    const topics = (it.topics || []).map(t => `<span class="chip topic">${escapeHtml(t)}</span>`).join('');
+    return `
+      <article class="card grant-card">
+        <div class="row-top">
+          <div class="badges">
+            <span class="chip agency">${escapeHtml(it.agency_short)}</span>
+            <span class="chip ${typeClass(it.type)}">${escapeHtml(it.type)}</span>
+            ${topics}
+          </div>
+          ${bookmarkBtn(it.id)}
+        </div>
+        <h3><a href="${it.link}" target="_blank" rel="noopener noreferrer">${escapeHtml(it.title)}</a></h3>
+        <div class="meta-line">
+          <span>${escapeHtml(it.author)}</span>
+          <span class="dot">·</span>
+          <span>${it.date}</span>
+        </div>
+        <div class="excerpt-box">
+          <span class="lbl">รายละเอียดโดยย่อ</span>
+          ${escapeHtml(it.excerpt)}
+        </div>
+        <div class="deadline-row">
+          <span class="dl-label">${it.deadline ? 'กำหนดปิดรับ: <span class="dl-date">' + it.deadline.display + '</span>' : ''}</span>
+          ${deadlinePill(it.deadline)}
+        </div>
+        <div class="card-actions">
+          <button class="detail-btn" data-detail="${it.id}">ดูรายละเอียด</button>
+          <a class="open-link" href="${it.link}" target="_blank" rel="noopener noreferrer">เปิดดูประกาศต้นฉบับ ↗</a>
+        </div>
+      </article>
+    `;
+  }
+
+  function updateSavedBadge() {
+    document.getElementById('navSavedBadge').textContent = saved.size;
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-bookmark]');
+    if (!btn) return;
+    const id = btn.getAttribute('data-bookmark');
+    if (saved.has(id)) saved.delete(id); else saved.add(id);
+    persistSaved(saved);
+    updateSavedBadge();
+    renderActiveView();
+    if (detailOverlay.classList.contains('open')) renderDetail(id); // เผื่อกดคั่นหน้าจากภายในแผงรายละเอียด
+  });
+
+  // ---------- Detail modal (slide-over) ----------
+  const detailOverlay = document.getElementById('detailOverlay');
+  const detailPanel = document.getElementById('detailPanel');
+
+  function objectivesList(objectives) {
+    if (!objectives || !objectives.length) return '';
+    const items = objectives.map(o => `
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+        <span>${escapeHtml(o)}</span>
+      </li>`).join('');
+    return `<div class="dp-section"><h4>วัตถุประสงค์/สาระสำคัญ</h4><ul class="dp-list">${items}</ul></div>`;
+  }
+
+  function renderDetail(id) {
+    const it = DATA.items.find(x => x.id === id);
+    if (!it) return;
+    const isSaved = saved.has(id);
+
+    let bodyHtml = '';
+    if (it.has_details) {
+      bodyHtml = `
+        <div class="dp-row"><span class="k">กลุ่มเป้าหมาย</span><span class="v">${escapeHtml(it.target_group || 'ไม่ระบุ')}</span></div>
+        <div class="dp-row"><span class="k">งบสนับสนุน</span><span class="v">${escapeHtml(it.funding_display || 'ไม่ระบุในประกาศ')}</span></div>
+        <div class="dp-row"><span class="k">กำหนดปิดรับ</span><span class="v">${it.deadline ? it.deadline.display + (it.deadline.days_left < 0 ? ' (ปิดรับแล้ว)' : '') : 'ไม่ระบุ / ดูในประกาศ'}</span></div>
+        ${objectivesList(it.objectives)}
+        ${it.eligibility_summary ? `<div class="dp-section"><h4>คุณสมบัติ/เกณฑ์สำคัญ</h4><p>${escapeHtml(it.eligibility_summary)}</p></div>` : ''}
+      `;
+    } else {
+      bodyHtml = `<div class="dp-empty-note">ยังไม่มีข้อมูลเชิงลึกที่สกัดไว้สำหรับประกาศนี้ (อาจเป็นประกาศใหม่ที่ยังไม่ผ่านรอบสกัดข้อมูล) — ดูรายละเอียดทั้งหมดได้จากประกาศต้นฉบับด้านล่าง</div>`;
+    }
+
+    detailPanel.innerHTML = `
+      <div class="dp-head">
+        <div class="badges">
+          <span class="chip agency">${escapeHtml(it.agency_short)}</span>
+          <span class="chip ${typeClass(it.type)}">${escapeHtml(it.type)}</span>
+        </div>
+        <button class="dp-close" id="dpCloseBtn" aria-label="ปิด">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <h2 id="dpTitle">${escapeHtml(it.title)}</h2>
+      <div class="dp-meta">${escapeHtml(it.author)} · ${it.date}</div>
+      ${bodyHtml}
+      <div class="dp-actions">
+        <a class="open-link" href="${it.link}" target="_blank" rel="noopener noreferrer">เปิดดูประกาศต้นฉบับ ↗</a>
+        ${bookmarkBtn(it.id)}
+      </div>
+    `;
+  }
+
+  function openDetail(id) {
+    renderDetail(id);
+    detailOverlay.classList.add('open');
+  }
+  function closeDetail() {
+    detailOverlay.classList.remove('open');
+  }
+
+  document.addEventListener('click', (e) => {
+    const openBtn = e.target.closest('[data-detail]');
+    if (openBtn) { openDetail(openBtn.getAttribute('data-detail')); return; }
+    if (e.target === detailOverlay) closeDetail();
+    if (e.target.closest('#dpCloseBtn')) closeDetail();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDetail();
+  });
+
+  // ---------- Dashboard ----------
+  function renderDashboard() {
+    document.getElementById('genAt1').textContent = DATA.meta.generated_at_display;
+    const openCount = DATA.items.filter(it => it.type === 'ทุนวิจัย').length;
+    document.getElementById('statOpen').textContent = openCount;
+    document.getElementById('statNewWeek').textContent = DATA.meta.new_this_week;
+    document.getElementById('statDeadlineSoon').textContent = DATA.meta.deadline_soon_count;
+    document.getElementById('statAgency2').textContent = DATA.meta.agency_count;
+
+    document.getElementById('featuredSub').textContent = `${DATA.featured.length} รายการ`;
+    document.getElementById('featuredGrid').innerHTML = DATA.featured.map(it => grantCard(it)).join('');
+
+    const typeCounts = {};
+    DATA.items.forEach(it => typeCounts[it.type] = (typeCounts[it.type] || 0) + 1);
+    const typeSummary = Object.entries(typeCounts).sort((a,b) => b[1]-a[1])
+      .map(([k,v]) => `<b>${v}</b> ${escapeHtml(k)}`).join(', ');
+    document.getElementById('insightSummary').innerHTML =
+      `พบประกาศทั้งหมด <b>${DATA.meta.total}</b> รายการ จาก <b>${DATA.meta.agency_count}</b> หน่วยงาน แบ่งเป็น ${typeSummary}`;
+
+    document.getElementById('trendingTags').innerHTML = DATA.trending.length
+      ? DATA.trending.map(t => `<span class="tag-pill">${escapeHtml(t.label)} · ${t.count}</span>`).join('')
+      : '<span class="tag-pill">ยังไม่พบหัวข้อเด่นชัดในรอบนี้</span>';
+
+    const maxAgency = Math.max(...DATA.top_agencies.map(a => a.count), 1);
+    document.getElementById('agencyBars').innerHTML = DATA.top_agencies.map(a => `
+      <div class="bar-row">
+        <span class="bar-label" title="${escapeHtml(a.label)}">${escapeHtml(a.label)}</span>
+        <span class="bar-track"><span class="bar-fill" style="width:${(a.count/maxAgency*100).toFixed(0)}%"></span></span>
+        <span class="bar-n">${a.count}</span>
+      </div>`).join('');
+
+    document.getElementById('statusChecked').textContent = DATA.meta.generated_at_display;
+    document.getElementById('statusNext').textContent = DATA.meta.next_check;
+  }
+
+  // ---------- Directory ----------
+  function populateFilters() {
+    const agencySelect = document.getElementById('agencyFilter');
+    DATA.agencies.forEach(a => {
+      const opt = document.createElement('option'); opt.value = a; opt.textContent = a;
+      agencySelect.appendChild(opt);
+    });
+    const typeSelect = document.getElementById('typeFilter');
+    DATA.types.forEach(t => {
+      const opt = document.createElement('option'); opt.value = t; opt.textContent = t;
+      typeSelect.appendChild(opt);
+    });
+  }
+
+  function renderDirectory() {
+    const q = document.getElementById('searchBox').value.trim().toLowerCase();
+    const agency = document.getElementById('agencyFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    const filtered = DATA.items.filter(it => {
+      const matchesQ = !q || it.title.toLowerCase().includes(q) || it.excerpt.toLowerCase().includes(q);
+      const matchesAgency = !agency || it.author === agency;
+      const matchesType = !type || it.type === type;
+      return matchesQ && matchesAgency && matchesType;
+    });
+    document.getElementById('countLine').textContent = `แสดง ${filtered.length} จาก ${DATA.items.length} รายการ`;
+    document.getElementById('directoryList').innerHTML = filtered.map(it => grantCard(it)).join('');
+    document.getElementById('directoryEmpty').hidden = filtered.length !== 0;
+  }
+
+  // ---------- Saved ----------
+  function renderSaved() {
+    const items = DATA.items.filter(it => saved.has(it.id));
+    document.getElementById('savedList').innerHTML = items.map(it => grantCard(it)).join('');
+    document.getElementById('savedEmpty').hidden = items.length !== 0;
+  }
+
+  // ---------- Analytics ----------
+  function renderAnalytics() {
+    document.getElementById('analyticsTotal').textContent = DATA.meta.total;
+    const typeCounts = {};
+    DATA.items.forEach(it => typeCounts[it.type] = (typeCounts[it.type] || 0) + 1);
+    const maxType = Math.max(...Object.values(typeCounts), 1);
+    document.getElementById('typeBars').innerHTML = Object.entries(typeCounts)
+      .sort((a,b) => b[1]-a[1])
+      .map(([k,v]) => `
+        <div class="bar-row">
+          <span class="bar-label" title="${escapeHtml(k)}">${escapeHtml(k)}</span>
+          <span class="bar-track"><span class="bar-fill" style="width:${(v/maxType*100).toFixed(0)}%"></span></span>
+          <span class="bar-n">${v}</span>
+        </div>`).join('');
+
+    const agencyCounts = {};
+    DATA.items.forEach(it => agencyCounts[it.author] = (agencyCounts[it.author] || 0) + 1);
+    const topAgencies = Object.entries(agencyCounts).sort((a,b) => b[1]-a[1]).slice(0, 10);
+    const maxAgency = Math.max(...topAgencies.map(a => a[1]), 1);
+    document.getElementById('agencyBarsFull').innerHTML = topAgencies.map(([k,v]) => `
+      <div class="bar-row">
+        <span class="bar-label" title="${escapeHtml(k)}">${escapeHtml(k)}</span>
+        <span class="bar-track"><span class="bar-fill" style="width:${(v/maxAgency*100).toFixed(0)}%"></span></span>
+        <span class="bar-n">${v}</span>
+      </div>`).join('');
+  }
+
+  // ---------- View switching ----------
+  const renderers = {
+    dashboard: renderDashboard,
+    directory: renderDirectory,
+    saved: renderSaved,
+    analytics: renderAnalytics,
+    settings: () => {},
+  };
+  let activeView = 'dashboard';
+  function renderActiveView() { renderers[activeView](); updateSavedBadge(); }
+
+  document.getElementById('navlist').addEventListener('click', (e) => {
+    const btn = e.target.closest('.navitem');
+    if (!btn) return;
+    activeView = btn.dataset.view;
+    document.querySelectorAll('.navitem').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + activeView));
+    renderActiveView();
+  });
+
+  document.getElementById('searchBox').addEventListener('input', renderDirectory);
+  document.getElementById('agencyFilter').addEventListener('change', renderDirectory);
+  document.getElementById('typeFilter').addEventListener('change', renderDirectory);
+
+  document.getElementById('navTotalBadge').textContent = DATA.meta.total;
+  populateFilters();
+  updateSavedBadge();
+  renderDashboard();
+</script>
