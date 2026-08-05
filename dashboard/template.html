@@ -310,6 +310,22 @@
   .stat.urgent .icon { background: var(--urgent-soft); color: var(--urgent); }
   .stat.info .icon { background: var(--info-soft); color: var(--info); }
 
+  .stat[data-quickfilter] { cursor: pointer; transition: border-color 0.12s ease, transform 0.12s ease; }
+  .stat[data-quickfilter]:hover { border-color: var(--accent-strong); transform: translateY(-1px); }
+  .stat[data-quickfilter]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .quickfilter-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; font-weight: 600; color: var(--accent-strong);
+    background: var(--accent-soft); border-radius: 100px; padding: 5px 6px 5px 11px;
+    margin-bottom: 10px;
+  }
+  .quickfilter-chip button {
+    border: none; background: rgba(0,0,0,0.12); color: inherit; cursor: pointer;
+    width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; line-height: 1;
+  }
+
   /* ---------- Section headers ---------- */
   .section-head {
     display: flex;
@@ -643,19 +659,19 @@
       </header>
 
       <div class="stats">
-        <div class="stat good">
+        <div class="stat good" data-quickfilter="open" role="button" tabindex="0" title="ดูรายการทุนวิจัยที่เปิดรับอยู่">
           <div><div class="n" id="statOpen">0</div><div class="l">ทุนวิจัยที่เปิดรับอยู่</div></div>
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></div>
         </div>
-        <div class="stat warn">
+        <div class="stat warn" data-quickfilter="new" role="button" tabindex="0" title="ดูประกาศใหม่ในสัปดาห์นี้">
           <div><div class="n" id="statNewWeek">0</div><div class="l">ประกาศใหม่ในสัปดาห์นี้</div></div>
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"></path></svg></div>
         </div>
-        <div class="stat urgent">
+        <div class="stat urgent" data-quickfilter="urgent" role="button" tabindex="0" title="ดูทุนที่ใกล้ปิดรับ">
           <div><div class="n" id="statDeadlineSoon">0</div><div class="l">ใกล้ปิดรับ (≤14 วัน)</div></div>
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></div>
         </div>
-        <div class="stat info">
+        <div class="stat info" data-quickfilter="none" role="button" tabindex="0" title="ดูทุนทั้งหมด">
           <div><div class="n" id="statAgency2">0</div><div class="l">หน่วยงานที่พบ</div></div>
           <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-6h4v6"></path></svg></div>
         </div>
@@ -703,6 +719,7 @@
         <select id="agencyFilter" aria-label="กรองตามหน่วยงาน"><option value="">ทุกหน่วยงาน</option></select>
         <select id="typeFilter" aria-label="กรองตามประเภทประกาศ"><option value="">ทุกประเภทประกาศ</option></select>
       </div>
+      <div id="quickFilterChip"></div>
       <div class="count-line" id="countLine"></div>
       <div class="list" id="directoryList"></div>
       <div class="empty" id="directoryEmpty" hidden>ไม่พบทุนที่ตรงกับเงื่อนไขค้นหา</div>
@@ -986,6 +1003,31 @@
     });
   }
 
+  const QUICK_FILTER_LABELS = {
+    open: 'ทุนวิจัยที่เปิดรับอยู่',
+    new: 'ประกาศใหม่ในสัปดาห์นี้',
+    urgent: 'ใกล้ปิดรับ (≤14 วัน)',
+  };
+
+  function matchesQuickFilter(it) {
+    if (!quickFilter) return true;
+    if (quickFilter === 'open') return it.type === 'ทุนวิจัย' && (!it.deadline || it.deadline.days_left >= 0);
+    if (quickFilter === 'new') return it.is_new_week;
+    if (quickFilter === 'urgent') return it.deadline && it.deadline.days_left >= 0 && it.deadline.days_left <= 14;
+    return true;
+  }
+
+  function renderQuickFilterChip() {
+    const el = document.getElementById('quickFilterChip');
+    if (!quickFilter) { el.innerHTML = ''; return; }
+    el.innerHTML = `
+      <span class="quickfilter-chip">
+        กำลังกรอง: ${escapeHtml(QUICK_FILTER_LABELS[quickFilter])}
+        <button id="clearQuickFilter" aria-label="ล้างตัวกรอง" title="ล้างตัวกรอง">✕</button>
+      </span>
+    `;
+  }
+
   function renderDirectory() {
     const q = document.getElementById('searchBox').value.trim().toLowerCase();
     const agency = document.getElementById('agencyFilter').value;
@@ -994,8 +1036,9 @@
       const matchesQ = !q || it.title.toLowerCase().includes(q) || it.excerpt.toLowerCase().includes(q);
       const matchesAgency = !agency || it.author === agency;
       const matchesType = !type || it.type === type;
-      return matchesQ && matchesAgency && matchesType;
+      return matchesQ && matchesAgency && matchesType && matchesQuickFilter(it);
     });
+    renderQuickFilterChip();
     document.getElementById('countLine').textContent = `แสดง ${filtered.length} จาก ${DATA.items.length} รายการ`;
     document.getElementById('directoryList').innerHTML = filtered.map(it => grantCard(it)).join('');
     document.getElementById('directoryEmpty').hidden = filtered.length !== 0;
@@ -1044,15 +1087,41 @@
     settings: () => {},
   };
   let activeView = 'dashboard';
+  let quickFilter = null; // null | 'open' | 'new' | 'urgent' — ตั้งเมื่อกดการ์ดสถิติในหน้า Dashboard
   function renderActiveView() { renderers[activeView](); updateSavedBadge(); }
+
+  function switchView(viewName) {
+    activeView = viewName;
+    document.querySelectorAll('.navitem').forEach(b => b.classList.toggle('active', b.dataset.view === viewName));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + viewName));
+    renderActiveView();
+  }
 
   document.getElementById('navlist').addEventListener('click', (e) => {
     const btn = e.target.closest('.navitem');
     if (!btn) return;
-    activeView = btn.dataset.view;
-    document.querySelectorAll('.navitem').forEach(b => b.classList.toggle('active', b === btn));
-    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + activeView));
-    renderActiveView();
+    quickFilter = null; // เปลี่ยนแท็บเองด้วยเมนู ไม่ใช่จากการ์ดสถิติ ให้ล้างตัวกรองด่วน
+    switchView(btn.dataset.view);
+  });
+
+  // การ์ดสถิติในหน้า Dashboard กดแล้วพาไปหน้า Grants Directory พร้อมตัวกรองที่เกี่ยวข้อง
+  document.querySelectorAll('.stat[data-quickfilter]').forEach(card => {
+    const activate = () => {
+      const qf = card.dataset.quickfilter;
+      quickFilter = (qf === 'none') ? null : qf;
+      switchView('directory');
+    };
+    card.addEventListener('click', activate);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#clearQuickFilter')) {
+      quickFilter = null;
+      renderDirectory();
+    }
   });
 
   document.getElementById('searchBox').addEventListener('input', renderDirectory);
